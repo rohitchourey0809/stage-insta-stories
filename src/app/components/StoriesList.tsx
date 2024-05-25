@@ -86,7 +86,7 @@ const StoriesList: React.FC = () => {
   return (
     <div className="overflow-x-scroll w-full h-48 flex items-center justify-center">
       <div className="flex space-x-4">
-        {stories.slice(currentIndex, currentIndex + 10).map((story, index) => (
+        {stories.slice(currentIndex, currentIndex + 4).map((story, index) => (
           <div
             key={story.id}
             className={`w-24 h-24 bg-gray-300 rounded-full overflow-hidden cursor-pointer ${
@@ -96,7 +96,7 @@ const StoriesList: React.FC = () => {
             onTouchEnd={handleTouchEnd}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
-            onClick={index === 9 ? goToNextStory : index === 0 ? goToPreviousStory : undefined}
+            onClick={index === 3 ? goToNextStory : index === 0 ? goToPreviousStory : undefined}
             style={{ transform: index === 9 ? animationStyle : index === 0 ? animationStyle : '' }}
           >
             <img
