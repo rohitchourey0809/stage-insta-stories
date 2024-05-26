@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import FullScreenStoryViewer from './FullScreenStoryViewe';
 
 interface Story {
   id: number;
@@ -12,6 +13,8 @@ const StoriesList: React.FC = () => {
   const [touchStartX, setTouchStartX] = useState(0);
   const [animationStyle, setAnimationStyle] = useState('');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+   const [showFullScreenViewer, setShowFullScreenViewer] = useState(false);
+  const [fullScreenInitialIndex, setFullScreenInitialIndex] = useState(0);
 
   useEffect(() => {
     const fetchStories = async () => {
@@ -83,7 +86,20 @@ const StoriesList: React.FC = () => {
     setHoveredIndex(null);
   };
 
+   const openFullScreenViewer = (index: number) => {
+    setFullScreenInitialIndex(index);
+    setShowFullScreenViewer(true);
+  };
+
   return (
+    <>
+     {showFullScreenViewer && (
+        <FullScreenStoryViewer
+          stories={stories}
+          initialIndex={fullScreenInitialIndex}
+          onClose={() => setShowFullScreenViewer(false)}
+        />
+      )}
     <div className="overflow-x-scroll w-full h-48 flex items-center justify-center">
       <div className="flex space-x-4">
         {stories.slice(currentIndex, currentIndex + 4).map((story, index) => (
@@ -100,6 +116,7 @@ const StoriesList: React.FC = () => {
             style={{ transform: index === 9 ? animationStyle : index === 0 ? animationStyle : '' }}
           >
             <img
+            onClick={() => openFullScreenViewer(index)}
               src={story.imageUrl}
               alt={`Story ${story.id}`}
               className="w-full h-full object-cover"
@@ -108,6 +125,7 @@ const StoriesList: React.FC = () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 
