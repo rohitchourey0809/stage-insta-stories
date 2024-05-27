@@ -16,7 +16,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>,
 ) {
-  const dummyStories: Story[] = Array.from({ length: 50 }, (_, index) => ({
+  const dummyStories: Story[] = Array.from({ length: 100 }, (_, index) => ({
     id: index + 1,
     imageUrl: `https://picsum.photos/300/200?random=${index + 1}`,
     duration: 5000, // Set duration as per your requirement
