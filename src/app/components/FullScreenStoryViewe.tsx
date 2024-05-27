@@ -73,7 +73,7 @@ const FullScreenStoryViewer: React.FC<FullScreenStoryViewerProps> = ({ stories, 
             />
           ))}
         </div>
-      >
+      
       </div>
          <button className="absolute mt-10 top-4 right-4 bg-white text-black px-4 py-2 rounded z-50" onClick={onClose}>
         Close
