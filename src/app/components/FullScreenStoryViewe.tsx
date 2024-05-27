@@ -19,7 +19,9 @@ const FullScreenStoryViewer: React.FC<FullScreenStoryViewerProps> = ({ stories, 
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % stories.length);
+       if (currentStories.length < 5) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % stories.length);
+      }
     }, stories[currentIndex]?.duration || 5000);
 
     setIntervalId(timer);
@@ -43,36 +45,41 @@ const FullScreenStoryViewer: React.FC<FullScreenStoryViewerProps> = ({ stories, 
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black z-50 flex flex-col items-center justify-center" onClick={handleClick}>
-      <div className="relative w-full h-full">
-        <div className="absolute top-4 left-4 right-4 flex justify-between z-10">
+    <>
+      <div className="fixed top-0 left-0 w-full h-full bg-black z-50 flex flex-col items-center justify-center" onClick={handleClick}>
+        
+        <div className="relative w-full h-full">
+          <div className="absolute top-4 left-4 right-4 flex justify-between z-10">
+            {currentStories.map((story, index) => (
+              <div key={index} className="flex-1 mx-1 bg-gray-500 h-1">
+                <div
+                  className="bg-blue-500 h-full"
+                  style={{ animation: currentIndex === index ? `progress ${story.duration || 5000}ms linear` : 'none' }}
+                />
+              </div>
+            ))}
+          </div>
           {currentStories.map((story, index) => (
-            <div key={index} className="flex-1 mx-1 bg-gray-500 h-1">
-              <div
-                className="bg-blue-500 h-full"
-                style={{ animation: currentIndex === index ? `progress ${story.duration || 5000}ms linear` : 'none' }}
-              />
-            </div>
+            <img
+              key={story.id}
+              src={story.imageUrl}
+              alt={`Story ${story.id}`}
+              className="absolute top-0 left-0 w-full h-full object-cover"
+              style={{
+                opacity: 1,
+                transition: `opacity ${story.duration || 5000}ms ease-in-out`,
+                zIndex: index === 0 ? 1 : 0,
+              }}
+            />
           ))}
         </div>
-        {currentStories.map((story, index) => (
-          <img
-            key={story.id}
-            src={story.imageUrl}
-            alt={`Story ${story.id}`}
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            style={{
-              opacity: 1,
-              transition: `opacity ${story.duration || 5000}ms ease-in-out`,
-              zIndex: index === 0 ? 1 : 0,
-            }}
-          />
-        ))}
-        <button className="absolute top-4 right-4 bg-white text-black px-4 py-2 rounded" onClick={onClose}>
-          Close
-        </button>
+      >
       </div>
-    </div>
+         <button className="absolute top-4 right-4 bg-white text-black px-4 py-2 rounded z-50" onClick={onClose}>
+        Close
+      </button>
+     
+    </>
   );
 };
 
